@@ -4,7 +4,7 @@ class op(bpy.types.Operator):
     """Switches selection between NLA tracks and their strips depending on existing selection."""
     bl_idname = "nla.transfer_selection"
     bl_label = "Transfer Selection"
-    bl_options = {"REGISTER", "UNDO"} # WARNING: This may be external to the search
+    bl_options = {"REGISTER", "UNDO"} # WARNING: This may be external to the search, why not
 
     transfer_type: bpy.props.EnumProperty(
         items=[
@@ -22,42 +22,34 @@ class op(bpy.types.Operator):
     
     def execute(self, context):
         selected = 0
+        is_stot = self.transfer_type == "STOT"
 
-        if self.transfer_type == "STOT":
-            for obj in context.view_layer.objects: # WARNING: Blender has no selected tracks context
-                if not obj.animation_data or not obj.animation_data.nla_tracks:
-                    continue
-                for track in obj.animation_data.nla_tracks:
-                    track.select = False
-                    for strip in track.strips:
-                        if strip.select:
-                            track.select = True
-                            selected += 1
-                            
-            for i in context.selected_nla_strips:
-                i.select = False
-        
-            if selected > 0:
-                self.report({"INFO"}, f"{selected} track(s) selected")
-            else:
-                self.report({"WARNING"}, "No tracks were selected")
-        else:
-            for i in context.selected_nla_strips:
-                i.select = False
+        for obj in context.view_layer.objects: # WARNING: Blender has no selected tracks context
+            if not obj.animation_data or not obj.animation_data.nla_tracks:
+                continue
             
-            for obj in context.view_layer.objects: # WARNING: Blender has no selected tracks context
-                if not obj.animation_data or not obj.animation_data.nla_tracks:
-                    continue
-                for track in obj.animation_data.nla_tracks:
+            for track in obj.animation_data.nla_tracks:
+                if not is_stot:
                     if track.select:
                         track.select = False
+                        selected +=1
+                        
                         for strip in track.strips:
                             strip.select = True
+
+                    continue
+
+                for strip in track.strips:
+                    if strip.select:
+                        strip.select = False
+
+                        if not track.select:
+                            track.select = True
                             selected += 1
 
-            if selected > 0:
-                self.report({"INFO"}, f"{selected} strip(s) selected")
-            else:
-                self.report({"WARNING"}, "No strips were selected")
+        if selected > 0:
+            self.report({"INFO"}, f"{selected} {'track(s)' if is_stot else 'strip(s)'} selected")
+        else:
+            self.report({"WARNING"}, f"No {'track(s)' if is_stot else 'strip(s)'} were selected")
 
         return {"FINISHED"}

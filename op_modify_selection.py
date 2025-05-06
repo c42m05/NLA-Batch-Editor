@@ -1,14 +1,5 @@
-bl_info = {
-    "name": "NLA Selection Modifier",
-    "author": "c4205M <ylmzcanmstf@gmail.com>",
-    "version": (1, 0),
-    "blender": (4, 1, 1),
-    "location": "Operator Search",
-    "description": "Allows modification of selection in the NLA Editor based on various criteria.",
-    "category": "Animation"
-}
-
 import bpy
+from . import utils_attributes
 
 class op(bpy.types.Operator):
     """Modify your selection with a search key"""
@@ -49,7 +40,7 @@ class op(bpy.types.Operator):
             target_stacks = nla_tracks if selection.is_track else (strip for track in nla_tracks for strip in track.strips)
 
             for item in target_stacks:
-                if (compare_attribute(props.op.filter_method, 
+                if (utils_attributes.compare_attribute(props.op.filter_method, 
                                         item, search_value, 
                                         props.strip.is_search_includes)):
                     selectable_stacks.add(item)
@@ -71,13 +62,6 @@ class op(bpy.types.Operator):
             self.report({"WARNING"}, f"No {'tracks' if selection.is_track else 'strips'} were selected")
 
         return {"FINISHED"}
-
-    
-def compare_attribute(method, source, input, is_substring_match = False):
-    if isinstance(input, str) and is_substring_match:
-        return input.lower() in source.name.lower()
-    else:
-        return getattr(source, method) == input
 
 def combine_selection(combination_type, current_items, new_items):
     match combination_type:

@@ -171,6 +171,28 @@ class PushdownProperties(bpy.types.PropertyGroup):
         options=set()
     ) # type: ignore
 
+class DublicateOpsProperties(bpy.types.PropertyGroup):
+    dublicate_name: bpy.props.StringProperty(
+        name="Track Name",
+        default="Dublicate_**TRACK_NAME**",
+        description="Set name for copy tracks. Tip: **TRACK_NAME** will be substituted with the name of the original track",
+        options=set()
+    ) #type: ignore
+
+    is_copy_linked : bpy.props.BoolProperty(
+        name="Linked Copy",
+        default=True,
+        description="When disabled, actions of strips will also be dublicated", # TODO: Description needed
+        options=set()
+    ) # type: ignore
+
+    # is_strip_name : bpy.props.BoolProperty(
+    #     name="Rename Strips",
+    #     default=True,
+    #     description="Add to selection when value is", # TODO: Description needed
+    #     options=set()
+    # ) # type: ignore
+
 class ModifySelectionProperties(bpy.types.PropertyGroup):
     selection_option : bpy.props.EnumProperty(
         items=[("ADD", "Add", "Add to current selection"),
@@ -216,23 +238,26 @@ class ModifySelectionProperties(bpy.types.PropertyGroup):
     ) # type: ignore
 
 classes = (
+    ModifySelectionProperties,
     StripProperties,
     PushdownProperties,
-    ModifySelectionProperties
+    DublicateOpsProperties,
 )
 
 def register():
     for cls in classes:
         bpy.utils.register_class(cls)
 
+    bpy.types.Scene.NBE_modify_selection_properties = bpy.props.PointerProperty(type=ModifySelectionProperties)
     bpy.types.Scene.NBE_strip_properties = bpy.props.PointerProperty(type=StripProperties)
     bpy.types.Scene.NBE_pushdown_properties = bpy.props.PointerProperty(type=PushdownProperties)
-    bpy.types.Scene.NBE_modify_selection_properties = bpy.props.PointerProperty(type=ModifySelectionProperties)
+    bpy.types.Scene.NBE_dublicate_op_properties = bpy.props.PointerProperty(type=DublicateOpsProperties)
 
 def unregister():
     for cls in classes:
         bpy.utils.unregister_class(cls)
 
+    del bpy.types.Scene.NBE_modify_selection_properties
     del bpy.types.Scene.NBE_strip_properties
     del bpy.types.Scene.NBE_pushdown_properties
-    del bpy.types.Scene.NBE_modify_selection_properties
+    del bpy.types.Scene.NBE_dublicate_op_properties

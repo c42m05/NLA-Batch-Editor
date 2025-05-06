@@ -42,7 +42,7 @@ from bpy.props import (
 	PointerProperty,
 )
 
-# WARNING: To always see tabs   sidebar, two seperate category is created
+# WARNING: To always see tabs on sidebar, two seperate category is created
 class NLA_PT_pushdown(bpy.types.Panel):
     bl_label = "Batch Pushdown"
     bl_idname = "NLA_PT_pushdown_settings"
@@ -113,7 +113,7 @@ class NLA_PT_pushdown(bpy.types.Panel):
         main_button.split(factor=1)
         main_button.enabled = is_any_selected
 
-class batch_edit(bpy.types.Panel):
+class NLA_PT_batch_edit(bpy.types.Panel):
     bl_label = "NLA Batch Editor"
     bl_idname = "NLA_PT_batch_edit"
     bl_space_type = "NLA_EDITOR"
@@ -121,15 +121,28 @@ class batch_edit(bpy.types.Panel):
     bl_category = "NBE | Batch Edit"
 
     def draw(self, context):
+        dub_op_props = context.scene.NBE_dublicate_op_properties
+
         layout = self.layout
         layout.use_property_split = True
         layout = layout.grid_flow(row_major=True, columns=0, even_columns=True, even_rows=False, align=False)
 
-        row = layout.row()
+        col = layout.column()
+        dub_op = col.box()
+        dub_op.label(text="Dublicate Tracks")
+        dub_op.prop(dub_op_props, "dublicate_name")
+        dub_op.prop(dub_op_props, "is_copy_linked")
+
+        row = dub_op.row()
         row.scale_y = 2.0
+        row.split(factor=1)
         row.operator(op_dublicate.op.bl_idname)
+        row.split(factor=1)
+        dub_op.separator(type="SPACE")
+
+        # row.operator(op_dublicate.op.bl_idname)
         # row.operator(op_edit_strip_data.op.bl_idname)
-        row.operator(op_edit_track_data.op.bl_idname)
+        col.operator(op_edit_track_data.op.bl_idname)
 
 class NLA_PT_modify_selection(bpy.types.Panel):
     bl_label = "Modify Selection"
@@ -185,12 +198,12 @@ classes = (
     # op_edit_strip_data.op,
     op_edit_track_data.op,
     op_transfer_selection.op,
+
     NLA_PT_pushdown,
     NLA_PT_modify_selection,
-    batch_edit,
+    NLA_PT_batch_edit,
 )
 
-# # QQ: Forgot about register/unregister mechanism. Why do we do that?
 def register():
     custom_properties.register()
 
