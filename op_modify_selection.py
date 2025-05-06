@@ -1,0 +1,89 @@
+bl_info = {
+    "name": "NLA Selection Modifier",
+    "author": "c4205M <ylmzcanmstf@gmail.com>",
+    "version": (1, 0),
+    "blender": (4, 1, 1),
+    "location": "Operator Search",
+    "description": "Allows modification of selection in the NLA Editor based on various criteria.",
+    "category": "Animation"
+}
+
+import bpy
+
+class op(bpy.types.Operator):
+    """Modify your selection with a search key"""
+    bl_idname = "nla.modify_selection"
+    bl_label = " Make Selection"
+    bl_options = {"REGISTER", "INTERNAL", "UNDO"}
+    
+    @classmethod
+    def poll(self, context):
+        return context.area.type == 'NLA_EDITOR'
+    
+    def execute(self, context):
+        class props:
+            op = context.scene.NBE_modify_selection_properties
+            strip = context.scene.NBE_strip_properties
+
+        class selection:
+            is_track = props.op.selection_type == "TRACK"
+            has_mute = props.op.include_tracks == 'BOTH' or props.op.include_tracks == 'MUTE'
+            has_locked = props.op.include_tracks == 'BOTH' or props.op.include_tracks == 'LOCK'
+
+        search_value = getattr(props.strip, props.op.filter_method) 
+
+        selectable_stacks = set()
+        selected_stacks = set()
+
+        new_selection_count = 0
+
+        for object in context.view_layer.objects:
+            if not object.animation_data or not object.animation_data.nla_tracks:
+                continue
+
+            nla_tracks = {track for track in object.animation_data.nla_tracks}
+            mute_discard = {track for track in nla_tracks if track.mute} if not selection.has_mute else set()
+            lock_discard = {track for track in nla_tracks if track.lock} if not selection.has_locked else set()
+            nla_tracks -= lock_discard | mute_discard
+
+            target_stacks = nla_tracks if selection.is_track else (strip for track in nla_tracks for strip in track.strips)
+
+            for item in target_stacks:
+                if (compare_attribute(props.op.filter_method, 
+                                        item, search_value, 
+                                        props.strip.is_search_includes)):
+                    selectable_stacks.add(item)
+
+                if item.select:
+                    item.select = False
+                    selected_stacks.add(item)
+                    new_selection_count -= 1
+
+        final_selection = combine_selection(props.op.selection_option, selected_stacks, selectable_stacks)
+
+        for stack in final_selection:
+            stack.select = True
+            new_selection_count += 1
+
+        if new_selection_count > 0:
+            self.report({"INFO"}, f"{new_selection_count} {'track(s)' if selection.is_track else 'strip(s)'} added to your selection")
+        else:
+            self.report({"WARNING"}, f"No {'tracks' if selection.is_track else 'strips'} were selected")
+
+        return {"FINISHED"}
+
+    
+def compare_attribute(method, source, input, is_substring_match = False):
+    if isinstance(input, str) and is_substring_match:
+        return input.lower() in source.name.lower()
+    else:
+        return getattr(source, method) == input
+
+def combine_selection(combination_type, current_items, new_items):
+    match combination_type:
+        case 'INTERSECT':
+            return current_items & new_items
+        case 'ADD':
+            return current_items | new_items
+        case 'SUBTRACT':
+            return current_items - new_items
