@@ -2,9 +2,9 @@ import bpy
 from . import utils_attributes
 
 class op(bpy.types.Operator):
-    """Creates new tracks with linked copies"""
+    """Creates new tracks with copy of selected tracks"""
     bl_idname = "nla.dub_track_data"
-    bl_label = "Nla Dub Track Data"
+    bl_label = "Dublicate Tracks"
     bl_options = {"REGISTER", "INTERNAL", "UNDO"}
 
     @classmethod

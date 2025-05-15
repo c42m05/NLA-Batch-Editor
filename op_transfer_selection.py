@@ -48,8 +48,8 @@ class op(bpy.types.Operator):
                             selected += 1
 
         if selected > 0:
-            self.report({"INFO"}, f"{selected} {'track(s)' if is_stot else 'strip(s)'} selected")
+            self.report({"INFO"}, f"{selected} new {'track(s)' if is_stot else 'strip(s)'} selected")
         else:
-            self.report({"WARNING"}, f"No {'track(s)' if is_stot else 'strip(s)'} were selected")
+            self.report({"WARNING"}, f"No new {'track(s)' if is_stot else 'strip(s)'} were selected")
 
         return {"FINISHED"}

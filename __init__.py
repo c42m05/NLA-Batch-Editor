@@ -113,37 +113,6 @@ class NLA_PT_pushdown(bpy.types.Panel):
         main_button.split(factor=1)
         main_button.enabled = is_any_selected
 
-class NLA_PT_batch_edit(bpy.types.Panel):
-    bl_label = "NLA Batch Editor"
-    bl_idname = "NLA_PT_batch_edit"
-    bl_space_type = "NLA_EDITOR"
-    bl_region_type = "UI"
-    bl_category = "NBE | Batch Edit"
-
-    def draw(self, context):
-        dub_op_props = context.scene.NBE_dublicate_op_properties
-
-        layout = self.layout
-        layout.use_property_split = True
-        layout = layout.grid_flow(row_major=True, columns=0, even_columns=True, even_rows=False, align=False)
-
-        col = layout.column()
-        dub_op = col.box()
-        dub_op.label(text="Dublicate Tracks")
-        dub_op.prop(dub_op_props, "dublicate_name")
-        dub_op.prop(dub_op_props, "is_copy_linked")
-
-        row = dub_op.row()
-        row.scale_y = 2.0
-        row.split(factor=1)
-        row.operator(op_dublicate.op.bl_idname)
-        row.split(factor=1)
-        dub_op.separator(type="SPACE")
-
-        # row.operator(op_dublicate.op.bl_idname)
-        # row.operator(op_edit_strip_data.op.bl_idname)
-        col.operator(op_edit_track_data.op.bl_idname)
-
 class NLA_PT_modify_selection(bpy.types.Panel):
     bl_label = "Modify Selection"
     bl_idname = "NLA_PT_modify_selection"
@@ -191,11 +160,65 @@ class NLA_PT_modify_selection(bpy.types.Panel):
         row.split(factor=1)
         segment.separator(type="SPACE")
 
+class NLA_PT_batch_edit(bpy.types.Panel):
+    bl_label = "NLA Batch Editor"
+    bl_idname = "NLA_PT_batch_edit"
+    bl_space_type = "NLA_EDITOR"
+    bl_region_type = "UI"
+    bl_category = "NBE | Batch Edit"
+
+    def draw(self, context):
+        dub_op_props = context.scene.NBE_dublicate_op_properties
+        edit_track_op_props = context.scene.NBE_edit_track_op_properties
+        edit_strip_op_props = context.scene.NBE_strip_property_toggles
+        strip_properties = context.scene.NBE_strip_properties
+
+        layout = self.layout
+        layout.use_property_split = True
+        layout = layout.grid_flow(row_major=True, columns=0, even_columns=True, even_rows=False, align=False)
+
+        col = layout.column()
+        dub_op = col.box()
+        dub_op.label(text="Dublicate Tracks")
+        dub_op.prop(dub_op_props, "dublicate_name")
+        dub_op.prop(dub_op_props, "is_copy_linked")
+
+        row = dub_op.row()
+        row.scale_y = 2.0
+        row.split(factor=1)
+        row.operator(op_dublicate.op.bl_idname)
+        row.split(factor=1)
+        dub_op.separator(type="SPACE")
+
+        ## Track Edit Op
+        edit_track_op = col.box()
+        edit_track_op.label(text="Edit Tracks")
+        edit_track_op.prop(edit_track_op_props, "name_input")
+        edit_track_op.prop(edit_track_op_props, "edit_mode")
+
+        is_toggle_edit = edit_track_op_props.edit_mode == "TOGGLE"
+
+        edit_track_op.prop(edit_track_op_props, "mute_input", text = "Toggle Mute" if is_toggle_edit else "Set Mute")
+        edit_track_op.prop(edit_track_op_props, "lock_input", text = "Toggle Lock" if is_toggle_edit else "Set Lock")
+
+        row = edit_track_op.row()
+        row.scale_y = 2.0
+        row.split(factor=1)
+        row.operator(op_edit_track_data.op.bl_idname)
+        row.split(factor=1)
+        edit_track_op.separator(type="SPACE")
+
+        row.operator(op_edit_strip_data.op.bl_idname)
+
+        ## Strip Edit Op
+
+
+
 classes = (
     op_modify_selection.op,
     op_batch_pushdown.op,
     op_dublicate.op,
-    # op_edit_strip_data.op,
+    op_edit_strip_data.op,
     op_edit_track_data.op,
     op_transfer_selection.op,
 

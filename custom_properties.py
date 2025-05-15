@@ -1,40 +1,24 @@
 import bpy
+
 class StripProperties(bpy.types.PropertyGroup): 
-    name : bpy.props.StringProperty(
-        name="Name",
-        default="",
-        description="Search name",
-        options=set()
-    ) # type: ignore
-    
-    is_search_includes : bpy.props.BoolProperty(
-        name="Name Contains Keyword",
-        default=True,
-        description="When enabled, the search key will inclusively match any part of the target names. Disable for exact matching only.",
-        options=set()
-    ) # type: ignore
+    action: bpy.props.PointerProperty(
+        type=bpy.types.Action, 
+        name='Action'
+    )  # type: ignore
 
-    frame_start : bpy.props.FloatProperty(
-        name="Start Frame",
-        default=0,
-        description="Add to selection when value is",
+    blend_in: bpy.props.FloatProperty(
+        name='Blend In',
+        default=0.0,
+        description='Include blend in amount to edit',
         options=set()
-    ) # type: ignore
+    )  # type: ignore
 
-    frame_end : bpy.props.FloatProperty(
-        name="End Frame",
-        default=0,
-        description="Add to selection when value is",
+    blend_out: bpy.props.FloatProperty(
+        name='Blend Out',
+        default=0.0,
+        description='Include blend out amount to edit',
         options=set()
-    ) # type: ignore
-
-    extrapolation : bpy.props.EnumProperty(
-        items=[("HOLD", "Hold", "Add to selection when extrapolation is hold"),
-               ("HOLD_FORWARD", "Hold Forward", "Add to selection when extrapolation is hold forward"),
-               ("NOTHING", "Nothing", "Add to selection when extrapolation is nothing")],
-        name="Extrapolation",
-        options=set()
-    ) # type: ignore
+    )  # type: ignore
     
     blend_type : bpy.props.EnumProperty(
         items=[("REPLACE", "Replace", "Add to selection when blend type is replace"),
@@ -45,62 +29,303 @@ class StripProperties(bpy.types.PropertyGroup):
         name="Blend Type",
         options=set()
     ) # type: ignore
-    
-    use_auto_blend : bpy.props.BoolProperty(
-        name="Auto Blend In/Out",
-        default=False,
-        description="Add to selection when value is",
+
+    extrapolation : bpy.props.EnumProperty(
+        items=[("HOLD", "Hold", "Add to selection when extrapolation is hold"),
+               ("HOLD_FORWARD", "Hold Forward", "Add to selection when extrapolation is hold forward"),
+               ("NOTHING", "Nothing", "Add to selection when extrapolation is nothing")],
+        name="Extrapolation",
         options=set()
     ) # type: ignore
-    
-    blend_in : bpy.props.FloatProperty(
-        name="Blend In",
-        default=10,
-        description="Add to selection when value is",
-        options=set()
-    ) # type: ignore
-    
-    blend_out : bpy.props.FloatProperty(
-        name="Blend Out",
+
+    frame_end: bpy.props.IntProperty(
+        name='End Frame',
         default=0,
-        description="Add to selection when value is",
+        description='Include end frame value to edit',
         options=set()
-    ) # type: ignore
-    
-    use_reverse : bpy.props.BoolProperty(
-        name="Reversed",
+    )  # type: ignore
+
+    frame_start: bpy.props.IntProperty(
+        name='Start Frame',
+        default=0,
+        description='Include start frame value to edit',
+        options=set()
+    )  # type: ignore
+
+    influence: bpy.props.FloatProperty(
+        name='Influence',
+        default=0.0,
+        description='Include influence amount to edit',
+        options=set()
+    )  # type: ignore
+
+    mute: bpy.props.BoolProperty(
+        name='Mute',
         default=False,
-        description="Add to selection when value is",
+        description='Include mute attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    name: bpy.props.StringProperty(
+        name='Name',
+        default='',
+        description='Include name attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    repeat: bpy.props.IntProperty(
+        name='Repeat',
+        default=0,
+        description='Include repeat amount to edit',
+        options=set()
+    )  # type: ignore
+
+    scale: bpy.props.FloatProperty(
+        name='Scale',
+        default=0.0,
+        description='Include scale amount to edit',
+        options=set()
+    )  # type: ignore
+
+    strip_time: bpy.props.FloatProperty(
+        name='Strip Time',
+        default=0.0,
+        description='Include strip time attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    type: bpy.props.StringProperty(
+        name='Type',
+        default='',
+        description='Include type attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    use_animated_influence: bpy.props.BoolProperty(
+        name='Animated Influence',
+        default=False,
+        description='Include animated influence to edit',
+        options=set()
+    )  # type: ignore
+
+    use_animated_time: bpy.props.BoolProperty(
+        name='Animated Time',
+        default=False,
+        description='Include animated time to edit',
+        options=set()
+    )  # type: ignore
+
+    use_animated_time_cyclic: bpy.props.BoolProperty(
+        name='Animated Time Cyclic',
+        default=False,
+        description='Include animated time cyclic to edit',
+        options=set()
+    )  # type: ignore
+
+    use_auto_blend: bpy.props.BoolProperty(
+        name='Auto Blend In/Out',
+        default=False,
+        description='Include auto blend attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    use_reverse: bpy.props.BoolProperty(
+        name='Reverse',
+        default=False,
+        description='Include reverse attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    use_sync_length: bpy.props.BoolProperty(
+        name='Sync Length',
+        default=False,
+        description='Include sync length to edit',
+        options=set()
+    )  # type: ignore
+    
+    is_search_includes : bpy.props.BoolProperty( ## WARNING: Not a blender porperty
+        name="Name Contains Keyword",
+        default=True,
+        description="When enabled, the search key will inclusively match any part of the target names. Disable for exact matching only.",
         options=set()
     ) # type: ignore
-    
+
+class StripPropertyToggles(bpy.types.PropertyGroup):
+    action : bpy.props.BoolProperty(
+        name='Action',
+        default=False,
+        description='Include action to edit',
+        options=set()
+    )  # type: ignore
+
+    action_frame_end : bpy.props.BoolProperty(
+        name='Action Frame End',
+        default=False,
+        description='Include action frame end to edit',
+        options=set()
+    )  # type: ignore
+
+    action_frame_start : bpy.props.BoolProperty(
+        name='Action Frame Start',
+        default=False,
+        description='Include action frame start to edit',
+        options=set()
+    )  # type: ignore
+
+    blend_in : bpy.props.BoolProperty(
+        name='Blend In',
+        default=False,
+        description='Include blend in amount to edit',
+        options=set()
+    )  # type: ignore
+
+    blend_out : bpy.props.BoolProperty(
+        name='Blend Out',
+        default=False,
+        description='Include blend out amount to edit',
+        options=set()
+    )  # type: ignore
+
+    blend_type : bpy.props.BoolProperty(
+        name='Blend Type',
+        default=False,
+        description='Include blend type to edit',
+        options=set()
+    )  # type: ignore
+
+    extrapolation : bpy.props.BoolProperty(
+        name='Extrapolation',
+        default=False,
+        description='Include extrapolation type to edit',
+        options=set()
+    )  # type: ignore
+
+    fcurves : bpy.props.BoolProperty(
+        name='Fcurves',
+        default=False,
+        description='Include fcurves to edit',
+        options=set()
+    )  # type: ignore
+
+    frame_end : bpy.props.BoolProperty(
+        name='End Frame',
+        default=False,
+        description='Include end frame value to edit',
+        options=set()
+    )  # type: ignore
+
+    frame_start : bpy.props.BoolProperty(
+        name='Start Frame',
+        default=False,
+        description='Include start frame value to edit',
+        options=set()
+    )  # type: ignore
+
+    influence : bpy.props.BoolProperty(
+        name='Influence',
+        default=False,
+        description='Include influence amount to edit',
+        options=set()
+    )  # type: ignore
+
+    modifiers : bpy.props.BoolProperty(
+        name='Modifiers',
+        default=False,
+        description='Include modifiers to edit',
+        options=set()
+    )  # type: ignore
+
+    mute : bpy.props.BoolProperty(
+        name='Mute',
+        default=False,
+        description='Include mute attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    name : bpy.props.BoolProperty(
+        name='Name',
+        default=False,
+        description='Include name attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    repeat : bpy.props.BoolProperty(
+        name='Repeat',
+        default=False,
+        description='Include repeat amount to edit',
+        options=set()
+    )  # type: ignore
+
+    scale : bpy.props.BoolProperty(
+        name='Scale',
+        default=False,
+        description='Include scale amount to edit',
+        options=set()
+    )  # type: ignore
+
+    strip_time : bpy.props.BoolProperty(
+        name='strip_time',
+        default=False,
+        description='Include strip time attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    strips : bpy.props.BoolProperty(
+        name='Strips',
+        default=False,
+        description='Include strips attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    type : bpy.props.BoolProperty(
+        name='Type',
+        default=False,
+        description='Include type attribute to edit',
+        options=set()
+    )  # type: ignore
+
     use_animated_influence : bpy.props.BoolProperty(
-        name="Animated Influence",
+        name='Animated Influence',
         default=False,
-        description="Add to selection when value is",
+        description='Include animated influence to edit',
         options=set()
-    ) # type: ignore
-    
-    influence : bpy.props.FloatProperty(
-        name="Influence",
-        default=1,
-        description="Add to selection when value is",
+    )  # type: ignore
+
+    use_animated_time : bpy.props.BoolProperty(
+        name='Animated Time',
+        default=False,
+        description='Include animated time to edit',
         options=set()
-    ) # type: ignore
-    
-    scale : bpy.props.FloatProperty(
-        name="Scale",
-        default=1,
-        description="Add to selection when value is",
+    )  # type: ignore
+
+    use_animated_time_cyclic : bpy.props.BoolProperty(
+        name='Animated Time Cyclic',
+        default=False,
+        description='Include animated time cyclic to edit',
         options=set()
-    ) # type: ignore
-    
-    repeat : bpy.props.IntProperty(
-        name="Repeat",
-        default=1,
-        description="Add to selection when value is",
+    )  # type: ignore
+
+    use_auto_blend : bpy.props.BoolProperty(
+        name='Auto Blend In/Out',
+        default=False,
+        description='Include auto blend attribute to edit',
         options=set()
-    ) # type: ignore
+    )  # type: ignore
+
+    use_reverse : bpy.props.BoolProperty(
+        name='Reverse',
+        default=False,
+        description='Include reverse attribute to edit',
+        options=set()
+    )  # type: ignore
+
+    use_sync_length : bpy.props.BoolProperty(
+        name='Sync Length',
+        default=False,
+        description='Include sync length to edit',
+        options=set()
+    )  # type: ignore
+
 
 class PushdownProperties(bpy.types.PropertyGroup):
     frame_start : bpy.props.IntProperty(
@@ -237,11 +462,43 @@ class ModifySelectionProperties(bpy.types.PropertyGroup):
         options=set()
     ) # type: ignore
 
+class EditTrackProperties(bpy.types.PropertyGroup):
+    name_input : bpy.props.StringProperty(
+        name="Name",
+        default="**TRACK_NAME**",
+        description="Edit track name",
+        options=set()
+    ) # type: ignore
+
+    edit_mode : bpy.props.EnumProperty(
+        items=[("TOGGLE", "Toggle", "Toggle mute or lock properties"),
+               ("SET", "Set", "Set mute or lock properties"),
+               ],
+        name="Edit Mode",
+        options=set()
+    ) # type: ignore
+
+    mute_input : bpy.props.BoolProperty(
+        name="Mute",
+        default=False,
+        description="Mute",
+        options=set()
+    ) # type: ignore
+
+    lock_input : bpy.props.BoolProperty(
+        name="Lock",
+        default=False,
+        description="Lock",
+        options=set()
+    ) # type: ignore
+
 classes = (
     ModifySelectionProperties,
     StripProperties,
     PushdownProperties,
     DublicateOpsProperties,
+    EditTrackProperties,
+    StripPropertyToggles,
 )
 
 def register():
@@ -252,6 +509,8 @@ def register():
     bpy.types.Scene.NBE_strip_properties = bpy.props.PointerProperty(type=StripProperties)
     bpy.types.Scene.NBE_pushdown_properties = bpy.props.PointerProperty(type=PushdownProperties)
     bpy.types.Scene.NBE_dublicate_op_properties = bpy.props.PointerProperty(type=DublicateOpsProperties)
+    bpy.types.Scene.NBE_edit_track_op_properties = bpy.props.PointerProperty(type=EditTrackProperties)
+    bpy.types.Scene.NBE_strip_property_toggles = bpy.props.PointerProperty(type=StripPropertyToggles)
 
 def unregister():
     for cls in classes:
@@ -261,3 +520,5 @@ def unregister():
     del bpy.types.Scene.NBE_strip_properties
     del bpy.types.Scene.NBE_pushdown_properties
     del bpy.types.Scene.NBE_dublicate_op_properties
+    del bpy.types.Scene.NBE_edit_track_op_properties
+    del bpy.types.Scene.NBE_strip_property_toggles
