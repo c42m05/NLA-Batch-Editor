@@ -15,7 +15,7 @@ class op(bpy.types.Operator):
         TRACK_NAME_PLACEHOLDER = "TRACK_NAME"
 
         selected = 0
-        op_props = context.scene.NBE_dublicate_op_properties
+        op_props = context.scene.NBE_properties.dublicate_ops_props
 
         bpy.ops.nla.transfer_selection(transfer_type="STOT")
 

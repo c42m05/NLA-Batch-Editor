@@ -12,9 +12,9 @@ class op(bpy.types.Operator):
         return context.area.type == 'NLA_EDITOR'
         
     def execute(self, context):
-        OBJECT_NAME_PLACEHOLDER = "OBJECT"
+        OBJECT_NAME_PLACEHOLDER = "OBJECT_NAME"
 
-        op_props = context.scene.NBE_pushdown_properties
+        op_props = context.scene.NBE_properties.pushdown_props
 
         for object in context.selected_objects:
             frame_start = random.randint(op_props.start_min, op_props.start_max) if op_props.random_start else op_props.frame_start

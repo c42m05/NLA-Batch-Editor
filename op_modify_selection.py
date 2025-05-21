@@ -13,8 +13,8 @@ class op(bpy.types.Operator):
     
     def execute(self, context):
         class props:
-            op = context.scene.NBE_modify_selection_properties
-            strip = context.scene.NBE_strip_properties
+            op = context.scene.NBE_properties.modify_selection_props
+            strip = context.scene.NBE_properties.strip_props
 
         class selection:
             is_track = props.op.selection_type == "TRACK"

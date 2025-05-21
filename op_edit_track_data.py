@@ -11,7 +11,7 @@ class op(bpy.types.Operator):
         return context.area.type == "NLA_EDITOR"
     
     def execute(op, context):
-        op = context.scene.NBE_edit_track_op_properties
+        op = context.scene.NBE_properties.edit_track_props
         TRACK_NAME_PLACEHOLDER = "TRACK_NAME"
         
         for obj in context.view_layer.objects:

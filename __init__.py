@@ -55,7 +55,7 @@ class NLA_PT_pushdown(bpy.types.Panel):
         layout = self.layout
         layout.use_property_split = True
 
-        props = context.scene.NBE_pushdown_properties
+        props = context.scene.NBE_properties.pushdown_props
         is_any_selected = len(context.selected_objects) > 0
 
         # Name options layout
@@ -114,15 +114,15 @@ class NLA_PT_pushdown(bpy.types.Panel):
         main_button.enabled = is_any_selected
 
 class NLA_PT_modify_selection(bpy.types.Panel):
-    bl_label = "Modify Selection"
+    bl_label = "Selection"
     bl_idname = "NLA_PT_modify_selection"
     bl_space_type = "NLA_EDITOR"
     bl_region_type = "UI"
     bl_category = "NBE | Batch Edit"
 
     def draw(self, context):
-        op_props = context.scene.NBE_modify_selection_properties
-        strip_props = context.scene.NBE_strip_properties
+        op_props = context.scene.NBE_properties.modify_selection_props
+        strip_props = context.scene.NBE_properties.strip_props
 
         layout = self.layout
         layout.use_property_split = True
@@ -160,35 +160,22 @@ class NLA_PT_modify_selection(bpy.types.Panel):
         row.split(factor=1)
         segment.separator(type="SPACE")
 
-class NLA_PT_batch_edit(bpy.types.Panel):
-    bl_label = "NLA Batch Editor"
-    bl_idname = "NLA_PT_batch_edit"
+class NLA_PT_track_edit(bpy.types.Panel):
+    bl_label = "Track Edit"
+    bl_idname = "NLA_PT_track_edit"
     bl_space_type = "NLA_EDITOR"
     bl_region_type = "UI"
     bl_category = "NBE | Batch Edit"
 
     def draw(self, context):
-        dub_op_props = context.scene.NBE_dublicate_op_properties
-        edit_track_op_props = context.scene.NBE_edit_track_op_properties
-        edit_strip_op_props = context.scene.NBE_strip_property_toggles
-        strip_properties = context.scene.NBE_strip_properties
+        dub_op_props = context.scene.NBE_properties.dublicate_ops_props
+        edit_track_op_props = context.scene.NBE_properties.edit_track_props
 
         layout = self.layout
         layout.use_property_split = True
         layout = layout.grid_flow(row_major=True, columns=0, even_columns=True, even_rows=False, align=False)
 
         col = layout.column()
-        dub_op = col.box()
-        dub_op.label(text="Dublicate Tracks")
-        dub_op.prop(dub_op_props, "dublicate_name")
-        dub_op.prop(dub_op_props, "is_copy_linked")
-
-        row = dub_op.row()
-        row.scale_y = 2.0
-        row.split(factor=1)
-        row.operator(op_dublicate.op.bl_idname)
-        row.split(factor=1)
-        dub_op.separator(type="SPACE")
 
         ## Track Edit Op
         edit_track_op = col.box()
@@ -208,9 +195,65 @@ class NLA_PT_batch_edit(bpy.types.Panel):
         row.split(factor=1)
         edit_track_op.separator(type="SPACE")
 
-        row.operator(op_edit_strip_data.op.bl_idname)
+        ## Dublicate Track Op
+        dub_op = col.box()
+        dub_op.label(text="Dublicate Tracks")
+        dub_op.prop(dub_op_props, "dublicate_name")
+        dub_op.prop(dub_op_props, "is_copy_linked")
 
-        ## Strip Edit Op
+        row = dub_op.row()
+        row.scale_y = 2.0
+        row.split(factor=1)
+        row.operator(op_dublicate.op.bl_idname)
+        row.split(factor=1)
+        dub_op.separator(type="SPACE")
+
+class NLA_PT_strip_edit(bpy.types.Panel):
+    bl_label = "Strip Edit"
+    bl_idname = "NLA_PT_strip_edit"
+    bl_space_type = "NLA_EDITOR"
+    bl_region_type = "UI"
+    bl_category = "NBE | Batch Edit"
+
+    def draw(self, context):
+        edit_strip_op_props = context.scene.NBE_properties.strip_toggles
+        strip_properties = context.scene.NBE_properties.strip_props
+
+        layout = self.layout
+        layout.use_property_split = True
+        layout = layout.grid_flow(row_major=True, columns=0, even_columns=True, even_rows=False, align=False)
+
+        edit_strip_op = layout.column()
+        
+        is_any_enabled = False
+        for prop in edit_strip_op_props.__annotations__.keys():
+            if hasattr(strip_properties, prop):
+                prop_name = edit_strip_op_props.bl_rna.properties[prop].name
+                toggle_value = getattr(edit_strip_op_props, prop)
+                label_stat = "RESTRICT_SELECT_OFF" if toggle_value else "RESTRICT_SELECT_ON"
+
+                if toggle_value:
+                    is_any_enabled = True
+
+                row = edit_strip_op.row()
+                row.label()
+                row.label()
+                row = row.row()
+                row.prop(edit_strip_op_props, prop, icon=label_stat, icon_only=True)
+                subrow = row.row()
+                subrow.active = getattr(edit_strip_op_props, prop)
+                subrow.prop(strip_properties, prop, text=prop_name)
+                row.label()
+                row.label()
+
+        edit_strip_op.separator(type="SPACE")
+        main_button = edit_strip_op.row()
+        main_button.scale_y = 2.0
+        main_button.split(factor=1)
+        main_button.operator(op_edit_strip_data.op.bl_idname)
+        main_button.split(factor=1)
+        main_button.enabled = is_any_enabled
+        edit_strip_op.separator(type="SPACE")
 
 
 
@@ -224,7 +267,8 @@ classes = (
 
     NLA_PT_pushdown,
     NLA_PT_modify_selection,
-    NLA_PT_batch_edit,
+    NLA_PT_track_edit,
+    NLA_PT_strip_edit,
 )
 
 def register():
