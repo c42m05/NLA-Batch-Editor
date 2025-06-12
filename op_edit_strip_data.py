@@ -6,12 +6,6 @@ class op(bpy.types.Operator):
     bl_label = "Edit Strips"
     bl_options = {"REGISTER", "INTERNAL", "UNDO"}
 
-    clone_active: bpy.props.BoolProperty(
-        name="Copy from active",
-        default=False,
-        description="Copy from active",
-    ) # type:ignore
-
     @classmethod
     def poll(self, context):
         return context.area.type == "NLA_EDITOR"
@@ -20,21 +14,18 @@ class op(bpy.types.Operator):
         strip_props = context.scene.NBE_properties.strip_props
         toggle_props = context.scene.NBE_properties.strip_toggles
 
+        STRIP_NAME_PLACEHOLDER = "STRIP_NAME"
+
         for strip in context.selected_nla_strips:
             for item in toggle_props.__annotations__.keys():
                 is_editable = getattr(toggle_props, item)
 
-                if self.clone_active:
-                    if context.active_nla_strip:
-                        if is_editable:
-                                setattr(strip, item, user_input)
-                    else:
-                        self.report({"INFO"}, f"Give some info")
-                else:
-                    if hasattr(strip_props, item):
-                        user_input = getattr(strip_props, item)
+                if hasattr(strip_props, item):
+                    user_input = getattr(strip_props, item)
+                    if item is "name":
+                        user_input = strip_props.name.replace(f"**{STRIP_NAME_PLACEHOLDER}**", strip.name)
 
-                        if is_editable:
-                            setattr(strip, item, user_input)
+                    if is_editable:
+                        setattr(strip, item, user_input)
 
         return {"FINISHED"}

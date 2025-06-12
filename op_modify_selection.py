@@ -58,8 +58,10 @@ class op(bpy.types.Operator):
 
         if new_selection_count > 0:
             self.report({"INFO"}, f"{new_selection_count} {'track(s)' if selection.is_track else 'strip(s)'} added to your selection")
+        elif new_selection_count < 0:
+            self.report({"INFO"}, f"{-new_selection_count} {'track(s)' if selection.is_track else 'strip(s)'} discarded from your selection")
         else:
-            self.report({"WARNING"}, f"No {'tracks' if selection.is_track else 'strips'} were selected")
+            self.report({"WARNING"}, f"No new {'tracks' if selection.is_track else 'strips'} were selected")
 
         return {"FINISHED"}
 

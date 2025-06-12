@@ -11,31 +11,31 @@ class StripProperties(bpy.types.PropertyGroup):
     blend_in: bpy.props.FloatProperty(
         name="Blend In",
         default=0.0,
-        description="Include blend in amount to edit",
+        description="Set blend in value",
         options=set()
     )  
 
     blend_out: bpy.props.FloatProperty(
         name="Blend Out",
         default=0.0,
-        description="Include blend out amount to edit",
+        description="Set blend out value",
         options=set()
     )  
     
     blend_type : bpy.props.EnumProperty(
-        items=[("REPLACE", "Replace", "Add to selection when blend type is replace"),
-               ("COMBINE", "Combine", "Add to selection when blend type is combine"),
-               ("ADD", "Add", "Add to selection when blend type is add"),
-               ("SUBTRACT", "Subtract", "Add to selection when blend type is subtract"),
-               ("MULTIPLY", "Multiply", "Add to selection when blend type is multiply")],
+        items=[("REPLACE", "Replace", "Set blend type to"),
+               ("COMBINE", "Combine", "Set blend type to"),
+               ("ADD", "Add", "Set blend type to"),
+               ("SUBTRACT", "Subtract", "Set blend type to"),
+               ("MULTIPLY", "Multiply", "Set blend type to")],
         name="Blend Type",
         options=set()
     ) 
 
     extrapolation : bpy.props.EnumProperty(
-        items=[("HOLD", "Hold", "Add to selection when extrapolation is hold"),
-               ("HOLD_FORWARD", "Hold Forward", "Add to selection when extrapolation is hold forward"),
-               ("NOTHING", "Nothing", "Add to selection when extrapolation is nothing")],
+        items=[("HOLD", "Hold", "Set extrapolation to"),
+               ("HOLD_FORWARD", "Hold Forward", "Set extrapolation to"),
+               ("NOTHING", "Nothing", "Set extrapolation to")],
         name="Extrapolation",
         options=set()
     ) 
@@ -43,105 +43,105 @@ class StripProperties(bpy.types.PropertyGroup):
     frame_end: bpy.props.IntProperty(
         name="End Frame",
         default=0,
-        description="Include end frame value to edit",
+        description="Set frame end value",
         options=set()
     )  
 
     frame_start: bpy.props.IntProperty(
         name="Start Frame",
         default=0,
-        description="Include start frame value to edit",
+        description="Set frame start value",
         options=set()
     )  
 
     influence: bpy.props.FloatProperty(
         name="Influence",
         default=0.0,
-        description="Include influence amount to edit",
+        description="Set animated influence value",
         options=set()
     )  
 
     mute: bpy.props.BoolProperty(
         name="Mute",
         default=False,
-        description="Include mute attribute to edit",
+        description="Set mute type",
         options=set()
     )  
 
     name: bpy.props.StringProperty(
         name="Name",
-        default="",
-        description="Include name attribute to edit",
+        default="**STRIP_NAME**",
+        description="Set name. Tip: **STRIP_NAME** will be substituted with the name of the original strip",
         options=set()
     )  
 
     repeat: bpy.props.IntProperty(
         name="Repeat",
         default=0,
-        description="Include repeat amount to edit",
+        description="Set repeat value",
         options=set()
     )  
 
     scale: bpy.props.FloatProperty(
         name="Scale",
         default=0.0,
-        description="Include scale amount to edit",
+        description="Set scale value",
         options=set()
     )  
 
     strip_time: bpy.props.FloatProperty(
         name="Strip Time",
         default=0.0,
-        description="Include strip time attribute to edit",
+        description="Set animated strip time value",
         options=set()
     )  
 
-    type: bpy.props.StringProperty(
-        name="Type",
-        default="",
-        description="Include type attribute to edit",
-        options=set()
-    )  
+    # type: bpy.props.StringProperty(
+    #     name="Type",
+    #     default="",
+    #     description="Include type attribute to edit",
+    #     options=set()
+    # )  
 
     use_animated_influence: bpy.props.BoolProperty(
         name="Animated Influence",
         default=False,
-        description="Include animated influence to edit",
+        description="Toggle animated influence",
         options=set()
     )  
 
     use_animated_time: bpy.props.BoolProperty(
         name="Animated Time",
         default=False,
-        description="Include animated time to edit",
+        description="Toggle animated time",
         options=set()
     )  
 
     use_animated_time_cyclic: bpy.props.BoolProperty(
         name="Animated Time Cyclic",
         default=False,
-        description="Include animated time cyclic to edit",
+        description="Toggle animated time cyclic",
         options=set()
     )  
 
     use_auto_blend: bpy.props.BoolProperty(
         name="Auto Blend In/Out",
         default=False,
-        description="Include auto blend attribute to edit",
+        description="Toggle auto blend",
         options=set()
     )  
 
     use_reverse: bpy.props.BoolProperty(
         name="Reverse",
         default=False,
-        description="Include reverse attribute to edit",
+        description="Toggle reverse",
         options=set()
     )  
 
     use_sync_length: bpy.props.BoolProperty(
         name="Sync Length",
         default=False,
-        description="Include sync length to edit",
+        description="Toggle sync length",
         options=set()
     )  
     
@@ -223,13 +223,6 @@ class StripPropertyToggles(bpy.types.PropertyGroup):
         options=set()
     )  
 
-    influence : bpy.props.BoolProperty(
-        name="Influence",
-        default=False,
-        description="Include influence amount to edit",
-        options=set()
-    )  
-
     modifiers : bpy.props.BoolProperty(
         name="Modifiers",
         default=False,
@@ -258,13 +251,6 @@ class StripPropertyToggles(bpy.types.PropertyGroup):
         options=set()
     )  
 
-    strip_time : bpy.props.BoolProperty(
-        name="Strip Time",
-        default=False,
-        description="Include strip time attribute to edit",
-        options=set()
-    )  
-
     strips : bpy.props.BoolProperty(
         name="Strips",
         default=False,
@@ -272,12 +258,12 @@ class StripPropertyToggles(bpy.types.PropertyGroup):
         options=set()
     )  
 
-    type : bpy.props.BoolProperty(
-        name="Type",
-        default=False,
-        description="Include type attribute to edit",
-        options=set()
-    )  
+    # type : bpy.props.BoolProperty(
+    #     name="Type",
+    #     default=False,
+    #     description="Include type attribute to edit",
+    #     options=set()
+    # )  
 
     use_animated_influence : bpy.props.BoolProperty(
         name="Animated Influence",
@@ -286,10 +272,24 @@ class StripPropertyToggles(bpy.types.PropertyGroup):
         options=set()
     )  
 
+    influence : bpy.props.BoolProperty(
+        name="Influence",
+        default=False,
+        description="Include influence amount to edit",
+        options=set()
+    )  
+
     use_animated_time : bpy.props.BoolProperty(
         name="Animated Time",
         default=False,
         description="Include animated time to edit",
+        options=set()
+    )  
+
+    strip_time : bpy.props.BoolProperty(
+        name="Strip Time",
+        default=False,
+        description="Include strip time attribute to edit",
         options=set()
     )  
 
@@ -330,56 +330,56 @@ class StripPropertyToggles(bpy.types.PropertyGroup):
 
 class PushdownProperties(bpy.types.PropertyGroup):
     frame_start : bpy.props.IntProperty(
-    name="Frame Start",
-    default=1,
-    description="Frame starts at",
-    options=set()
+        name="Frame Start",
+        default=1,
+        description="Frame starts at",
+        options=set()
     ) 
 
     start_min : bpy.props.IntProperty(
         name="Start Min",
         default=2,
-        description="Random frame starts do not go below",
+        description="Assigns start frame min",
         options=set()
     ) 
 
     start_max : bpy.props.IntProperty(
         name="Start Max",
         default=5,
-        description="Random frame starts do not go above",
+        description="Assigns start frame max",
         options=set()
     ) 
 
     random_start : bpy.props.BoolProperty(
         name="Randomize",
         default=False,
-        description="Assign random starts for each strip",
+        description="Assigns random starts for each strip",
         options=set()
     ) 
 
     track_name : bpy.props.StringProperty(
         name="New Track Name",
         default="Animation_**OBJECT_NAME**",
-        description="Set name for new tracks. Tip: **OBJECT** will be substituted with the name of the associated object."
+        description="Sets name for new tracks. Tip: **OBJECT_NAME** will be substituted with the name of the associated object."
     ) 
 
     strip_name : bpy.props.StringProperty(
         name="New Strip Name",
-        default="AnimationStrip_**OBJECT**",
-        description="Set name for new strips. Tip, **object** will be replaced by its object name."
+        default="AnimationStrip_**OBJECT_NAME**",
+        description="Sets name for new strips. Tip, **OBJECT_NAME** will be replaced by its object name."
     ) 
 
     distinct_strip_name : bpy.props.BoolProperty(
         name="Distinct Strip Names",
         default=False,
-        description="Set strip names different than tracks",
+        description="Sets strip names different than tracks",
         options=set()
     ) 
 
     set_mute_new_track : bpy.props.BoolProperty(
         name="Mute New Tracks",
         default=False,
-        description="Set mute new tracks",
+        description="Sets mute for new tracks",
         options=set()
     ) 
 
@@ -390,12 +390,12 @@ class PushdownProperties(bpy.types.PropertyGroup):
         options=set()
     ) 
 
-    change_action_name : bpy.props.BoolProperty(
-        name="Change Action Name",
-        default=False,
-        description="Change action names (Number prefixes will be added as blender default)",
-        options=set()
-    ) 
+    # change_action_name : bpy.props.BoolProperty(
+    #     name="Change Action Name",
+    #     default=False,
+    #     description="Change action names (Number prefixes will be added as blender default)",
+    #     options=set()
+    # ) 
 
 class DublicateOpsProperties(bpy.types.PropertyGroup):
     dublicate_name: bpy.props.StringProperty(
@@ -415,7 +415,7 @@ class DublicateOpsProperties(bpy.types.PropertyGroup):
     # is_strip_name : bpy.props.BoolProperty(
     #     name="Rename Strips",
     #     default=True,
-    #     description="Add to selection when value is", # TODO: Description needed
+    #     description="Include when value is", # TODO: Description needed
     #     options=set()
     # ) 
 
@@ -467,7 +467,7 @@ class EditTrackProperties(bpy.types.PropertyGroup):
     name_input : bpy.props.StringProperty(
         name="Name",
         default="**TRACK_NAME**",
-        description="Edit track name",
+        description="Edit track name. Tip: **TRACK_NAME** will be substituted with the name of the original track",
         options=set()
     ) 
 
