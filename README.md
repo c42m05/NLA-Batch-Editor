@@ -1,28 +1,15 @@
 
 # NLA Batch Editor
 
-  
-  
-
-<div  align="center">
-
-  
-
-<img  src="https://www.blender.org/wp-content/uploads/2020/07/blender_logo_no_socket_white.png"  height="100"  alt="Lens Studio">
-
-  
-
-<img  src="https://img.shields.io/badge/Blender-Addon-green"  alt="Blender Addon">
-
-  
-
-<p>A powerful Blender addon for batch editing Non-Linear Animation (NLA) strips and tracks.</p>
-
-  
-
+<div align="center">
+  <div>
+    <img src="https://www.blender.org/wp-content/uploads/2020/07/blender_logo_no_socket_white.png" height="100" alt="Blender">
+  </div>
+  <div>
+    <img src="https://img.shields.io/badge/Blender-Addon-green" alt="Blender Addon">
+  </div>
+  <p>A powerful Blender addon for batch editing Non-Linear Animation (NLA) strips and tracks.</p>
 </div>
-
-  
 
 ## Overview
 
