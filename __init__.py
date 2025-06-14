@@ -242,7 +242,7 @@ class NLA_PT_strip_edit(bpy.types.Panel):
         main_button.enabled = is_any_enabled
         edit_strip_op.separator(type="SPACE")
 
-
+ 
 
 classes = (
     op_modify_selection.op,

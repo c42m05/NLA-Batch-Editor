@@ -18,7 +18,7 @@ class op(bpy.types.Operator):
         pushdowns = 0
 
         for object in context.selected_objects:
-            if object.animation_data.action:
+            if object.animation_data and object.animation_data.action:
                 frame_start = random.randint(op_props.start_min, op_props.start_max) if op_props.random_start else op_props.frame_start
                 nla_tracks = object.animation_data.nla_tracks
 
