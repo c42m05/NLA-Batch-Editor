@@ -2,7 +2,7 @@ import bpy
 
 class op(bpy.types.Operator):
     """Edit select tracks"""
-    bl_idname = "nla.edit_track_data"
+    bl_idname = "nla_batch_editor.edit_track_data"
     bl_label = "Edit Tracks"
     bl_options = {"REGISTER", "INTERNAL", "UNDO"}
 

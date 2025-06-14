@@ -3,7 +3,7 @@ import random
 
 class op(bpy.types.Operator):
     """Pushdown actions to nla tracks"""
-    bl_idname = "nla.batch_pushdown"
+    bl_idname = "nla_batch_editor.batch_pushdown"
     bl_label = "Pushdown Actions"
     bl_options = {"REGISTER", "INTERNAL", "UNDO"}
 

@@ -2,7 +2,7 @@ import bpy
 
 class op(bpy.types.Operator):
     """Edit strips"""
-    bl_idname = "nla.edit_strip_data"
+    bl_idname = "nla_batch_editor.edit_strip_data"
     bl_label = "Edit Strips"
     bl_options = {"REGISTER", "INTERNAL", "UNDO"}
 

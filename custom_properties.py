@@ -408,16 +408,9 @@ class DublicateOpsProperties(bpy.types.PropertyGroup):
     is_copy_linked : bpy.props.BoolProperty(
         name="Linked Copy",
         default=True,
-        description="When disabled, actions of strips will also be dublicated", # TODO: Description needed
+        description="When disabled, actions of strips will also be dublicated",
         options=set()
     ) 
-
-    # is_strip_name : bpy.props.BoolProperty(
-    #     name="Rename Strips",
-    #     default=True,
-    #     description="Include when value is", # TODO: Description needed
-    #     options=set()
-    # ) 
 
 class ModifySelectionProperties(bpy.types.PropertyGroup):
     selection_option : bpy.props.EnumProperty(

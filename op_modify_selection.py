@@ -3,7 +3,7 @@ from . import utils_attributes
 
 class op(bpy.types.Operator):
     """Modify your selection with a search key"""
-    bl_idname = "nla.modify_selection"
+    bl_idname = "nla_batch_editor.modify_selection"
     bl_label = " Make Selection"
     bl_options = {"REGISTER", "INTERNAL", "UNDO"}
     

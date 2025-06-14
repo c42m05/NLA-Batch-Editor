@@ -1,11 +1,11 @@
 bl_info = {
-    # TODO: Add website to info
     "name": "NLA Batch Editor",
     "version": (0, 0, 1),
     "author": "c4205M",
     "blender": (4, 4, 1),
-    "description": "...", #TODO: Describe the addon
+    "description": "Batch editing for NLA Editor",
     "category": "NLA",
+    "doc_url": "https://github.com/c42m05/NLA-Batch-Editor",
 }
 
 if "bpy" in locals():
@@ -28,19 +28,6 @@ else:
     from . import op_transfer_selection
 
 import bpy
-import math
-
-from bpy.types import Menu, Operator, Panel, AddonPreferences, PropertyGroup
-from bpy.props import (
-	StringProperty,
-	BoolProperty,
-	IntProperty,
-	IntVectorProperty,
-	FloatProperty,
-	FloatVectorProperty,
-	EnumProperty,
-	PointerProperty,
-)
 
 # WARNING: To always see tabs on sidebar, two seperate category is created
 class NLA_PT_pushdown(bpy.types.Panel):

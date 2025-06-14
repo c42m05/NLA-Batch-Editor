@@ -3,7 +3,7 @@ from . import utils_attributes
 
 class op(bpy.types.Operator):
     """Creates new tracks with copy of selected tracks"""
-    bl_idname = "nla.dub_track_data"
+    bl_idname = "nla_batch_editor.dub_track_data"
     bl_label = "Dublicate Tracks"
     bl_options = {"REGISTER", "INTERNAL", "UNDO"}
 

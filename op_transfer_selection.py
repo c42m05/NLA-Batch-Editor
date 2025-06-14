@@ -2,7 +2,7 @@ import bpy
 
 class op(bpy.types.Operator):
     """Switches selection between NLA tracks and their strips."""
-    bl_idname = "nla.transfer_selection"
+    bl_idname = "nla_batch_editor.transfer_selection"
     bl_label = "Transfer Selection"
     bl_options = {"REGISTER", "UNDO"} # WARNING: This may be external to the search, why not
 
