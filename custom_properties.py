@@ -70,8 +70,8 @@ class StripProperties(bpy.types.PropertyGroup):
 
     name: bpy.props.StringProperty(
         name="Name",
-        default="**STRIP_NAME**",
-        description="Set name. Tip: **STRIP_NAME** will be substituted with the name of the original strip",
+        default="",
+        description="On set name **STRIP_NAME**  and **TRACK_NAME** will be substituted with the name of the original strip/track",
         options=set()
     )  
 
