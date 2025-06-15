@@ -80,18 +80,7 @@ NLA Batch Editor is designed to streamline the workflow on NLA Editor of Blender
 ## Installation
 
   
-
-1. Download the addon files
-
-2. Open Blender
-
-3. Go to Edit > Preferences > Add-ons
-
-4. Click "Install" and select the downloaded addon files
-
-5. Enable the addon by checking the box next to "NLA Batch Editor"
-
-  
+Download from the [Blender Extensions Platform](https://extensions.blender.org/add-ons/datablock-utils/). 
 
 ## Usage
 
