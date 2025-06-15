@@ -21,7 +21,8 @@ class op(bpy.types.Operator):
             has_mute = props.op.include_tracks == 'BOTH' or props.op.include_tracks == 'MUTE'
             has_locked = props.op.include_tracks == 'BOTH' or props.op.include_tracks == 'LOCK'
 
-        search_value = getattr(props.strip, props.op.filter_method) 
+        search_source = props.op if props.op.filter_method == "name" else props.strip
+        search_value = getattr(search_source, props.op.filter_method) 
 
         selectable_stacks = set()
         selected_stacks = set()

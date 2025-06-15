@@ -70,8 +70,8 @@ class StripProperties(bpy.types.PropertyGroup):
 
     name: bpy.props.StringProperty(
         name="Name",
-        default="",
-        description="On set name **STRIP_NAME**  and **TRACK_NAME** will be substituted with the name of the original strip/track",
+        default="**STRIP_NAME**",
+        description="Edit track name. Tip: **STRIP_NAME** will be substituted with the name of the original track",
         options=set()
     )  
 
@@ -413,6 +413,13 @@ class DublicateOpsProperties(bpy.types.PropertyGroup):
     ) 
 
 class ModifySelectionProperties(bpy.types.PropertyGroup):
+    name: bpy.props.StringProperty(
+        name="Name",
+        default="",
+        description="Search by name",
+        options=set()
+    )
+
     selection_option : bpy.props.EnumProperty(
         items=[("ADD", "Add", "Add to current selection"),
                ("SUBTRACT", "Subtract", "Subtract from current selection"),

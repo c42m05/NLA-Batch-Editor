@@ -130,12 +130,14 @@ class NLA_PT_modify_selection(bpy.types.Panel):
 
         if op_props.selection_type == 'STRIP':
             segment.prop(op_props, 'filter_method')
-            segment.prop(strip_props, op_props.filter_method)
-
             if op_props.filter_method == 'name':
+                segment.prop(op_props, op_props.filter_method)
                 segment.prop(strip_props, 'is_search_includes')
+            else:
+                segment.prop(strip_props, op_props.filter_method)
+
         else:
-            segment.prop(strip_props, 'name')
+            segment.prop(op_props, 'name')
             segment.prop(strip_props, 'is_search_includes')
        
         segment.separator(type="SPACE")
