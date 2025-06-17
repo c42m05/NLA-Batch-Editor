@@ -13,11 +13,7 @@
 
 ## Overview
 
-  
-
 NLA Batch Editor is designed to streamline the workflow on NLA Editor of Blender. It provides a comprehensive set of tools for batch operations, making it easier to manage and modify multiple NLA elements simultaneously.
-
-  
 
 ## Features
 
@@ -65,7 +61,24 @@ NLA Batch Editor is designed to streamline the workflow on NLA Editor of Blender
 
 - Comprehensive strip property controls
 
-  
+
+## Why Use NLA Batch Editor?
+
+Managing multiple animations in Blender can quickly become tedious —especially when dealing with multiple objects, repeated actions, or preparing content for WebGL, Three.js, or glTF/GLB exports.
+
+When preparing GLB files for web development, if you're animating multiple objects this helps you:
+- Push down actions across multiple selected objects in one go
+- Batch rename tracks and strips for clean, organized animation layers (This especially useful when multiple objects need to animate in sync. By assigning them the same identifier, you can trigger all related animations with a single call)
+
+When dealing with poupulated NLA, NBE makes it easy to:
+- Batch rename or duplicate strips and tracks
+- Apply settings like blend in/out across multiple strips
+- Set mute/lock states across many items simultaneously
+- Selection filters based on names, states, and properties
+- The ability to transfer selections between strips and tracks
+
+Ultimately, the add-on empowers you to focus on *animation logic*, not *editor busywork*. Whether you’re cleaning up hundreds of strips or prepping a web-ready GLB file with clear structure and reusable components.
+
 
 ## Requirements
 
@@ -80,7 +93,7 @@ NLA Batch Editor is designed to streamline the workflow on NLA Editor of Blender
 ## Installation
 
   
-Download from the [Blender Extensions Platform](https://extensions.blender.org/add-ons/datablock-utils/). 
+Download from the [Blender Extensions Platform](LINK). 
 
 ## Usage
 
