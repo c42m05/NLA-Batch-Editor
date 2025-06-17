@@ -120,19 +120,3 @@ The addon adds several panels to the NLA Editor's sidebar:
 - Track editing capabilities
 
 - Strip editing functions
-
-  
-
-## Contributing
-
-  
-
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-  
-
-## License
-
-  
-
-<a  href="https://github.com/c42m05/NLA-Batch-Editor">NLA Batch Editor</a> © 2025 by <a  href="https://github.com/c42m05/">c4205M</a> is licensed under <a  href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a><img  src="https://mirrors.creativecommons.org/presskit/icons/cc.svg"  style="height:22px;margin-left:3px;vertical-align:text-bottom;"><img  src="https://mirrors.creativecommons.org/presskit/icons/by.svg"  style="height:22px;margin-left:3px;vertical-align:text-bottom;"><img  src="https://mirrors.creativecommons.org/presskit/icons/sa.svg"  style="height:22px;margin-left:3px;vertical-align:text-bottom;">
